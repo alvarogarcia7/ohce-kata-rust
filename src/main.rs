@@ -1,24 +1,23 @@
-use std::io::{self, Write};
+use std::io::Write;
 
+use crate::reader::{ConsoleReader, Reader};
 use crate::reverse::{RealReverser, Reverser};
 
+mod reader;
 mod reverse;
 
-fn main_<R: Reverser>(reverser: R) {
-    let mut input = String::new();
+fn main_<R: Reverser, RD: Reader>(reverser: R, reader: RD) {
     print!("Enter text: ");
-    io::stdout().flush().unwrap();
-    io::stdin()
-        .read_line(&mut input)
-        .expect("Failed to read line");
-    let input = input.trim();
-    let reversed = reverser.reverse_input(input);
+    std::io::stdout().flush().unwrap();
+    let input = reader.read_line();
+    let reversed = reverser.reverse_input(&input);
     println!("Reversed: {}", reversed);
 }
 
 fn main() {
     let reverser = RealReverser;
-    main_(reverser);
+    let reader = ConsoleReader;
+    main_(reverser, reader);
 }
 
 #[cfg(test)]
@@ -26,7 +25,8 @@ mod tests {
     use mockall::predicate;
 
     use crate::main_;
-    use crate::reverse::{MockReverser, Reverser};
+    use crate::reader::MockReader;
+    use crate::reverse::MockReverser;
 
     #[test]
     fn test_reverse_input() {
@@ -36,8 +36,9 @@ mod tests {
             .once()
             .returning(|_| "olleh".to_string());
 
-        assert_eq!(mock.reverse_input("hello"), "olleh");
+        let mut reader = MockReader::new();
+        reader.expect_read_line().returning(|| "hello".to_string());
 
-        main_(mock);
+        main_(mock, reader);
     }
 }
