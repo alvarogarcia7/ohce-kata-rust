@@ -34,6 +34,7 @@ mod tests {
         let mut mock = MockReverser::new();
         mock.expect_reverse_input()
             .with(predicate::eq("hello"))
+            .once()
             .returning(|_| "olleh".to_string());
 
         assert_eq!(mock.reverse_input("hello"), "olleh");
