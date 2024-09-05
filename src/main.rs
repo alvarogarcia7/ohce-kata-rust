@@ -31,13 +31,17 @@ mod tests {
     #[test]
     fn test_reverse_input() {
         let mut mock = MockReverser::new();
+        let user_input = "hello";
+        let reversed = "olleh";
         mock.expect_reverse_input()
-            .with(predicate::eq("hello"))
+            .with(predicate::eq(user_input))
             .once()
-            .returning(|_| "olleh".to_string());
+            .returning(|_| {
+                reversed.to_string()
+            });
 
         let mut reader = MockReader::new();
-        reader.expect_read_line().returning(|| "hello".to_string());
+        reader.expect_read_line().returning(|| user_input.to_string());
 
         main_(mock, reader);
     }
