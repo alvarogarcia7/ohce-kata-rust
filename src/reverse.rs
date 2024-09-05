@@ -1,13 +1,13 @@
 use mockall::automock;
 
 #[automock]
-pub trait Reverser {
+pub trait ReverserT {
     fn reverse_input(&self, input: &str) -> String;
 }
 
-pub struct RealReverser;
+pub struct ReverserImpl;
 
-impl Reverser for RealReverser {
+impl ReverserT for ReverserImpl {
     fn reverse_input(&self, input: &str) -> String {
         input.chars().rev().collect()
     }
@@ -15,7 +15,7 @@ impl Reverser for RealReverser {
 
 #[cfg(test)]
 mod tests {
-    use crate::reverse::{RealReverser, Reverser};
+    use crate::reverse::{ReverserImpl, ReverserT};
 
     #[test]
     fn test_reverse_input() {
@@ -25,6 +25,6 @@ mod tests {
     }
 
     fn reverse_input(p0: &str) -> String {
-        RealReverser.reverse_input(p0)
+        ReverserImpl.reverse_input(p0)
     }
 }

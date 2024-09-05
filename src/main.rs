@@ -1,10 +1,10 @@
 use crate::reader::{Console, ConsoleReader};
-use crate::reverse::{RealReverser, Reverser};
+use crate::reverse::{ReverserImpl, ReverserT};
 
 mod reader;
 mod reverse;
 
-fn main_<R: Reverser, C: Console>(reverser: R, console: C) {
+fn main_<R: ReverserT, C: Console>(reverser: R, console: C) {
     console.println("Enter text:".to_string());
     let input = console.read_line();
     let reversed = reverser.reverse_input(&input);
@@ -12,7 +12,7 @@ fn main_<R: Reverser, C: Console>(reverser: R, console: C) {
 }
 
 fn main() {
-    let reverser = RealReverser;
+    let reverser = ReverserImpl;
     let reader = ConsoleReader;
     main_(reverser, reader);
 }
@@ -23,11 +23,11 @@ mod tests {
 
     use crate::main_;
     use crate::reader::MockConsole;
-    use crate::reverse::{MockReverser, RealReverser};
+    use crate::reverse::{MockReverserT, ReverserImpl};
 
     #[test]
     fn test_reverse_input_using_a_mock_reverser() {
-        let mut mock = MockReverser::new();
+        let mut mock = MockReverserT::new();
         let user_input = "hello";
         let reversed = "olleh";
         mock.expect_reverse_input()
@@ -55,7 +55,7 @@ mod tests {
     }
     #[test]
     fn test_reverse_input_using_real_reverser() {
-        let mock = RealReverser;
+        let mock = ReverserImpl;
         let user_input = "hello";
 
         let mut console = MockConsole::new();
