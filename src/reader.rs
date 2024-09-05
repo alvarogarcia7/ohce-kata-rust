@@ -1,8 +1,13 @@
 use mockall::automock;
+use std::io::Write;
 
 #[automock]
 pub trait Reader {
     fn read_line(&self) -> String;
+    fn println(&self, message: String) {
+        println!("{}", message);
+        std::io::stdout().flush().unwrap();
+    }
 }
 
 pub struct ConsoleReader;

@@ -1,5 +1,3 @@
-use std::io::Write;
-
 use crate::reader::{ConsoleReader, Reader};
 use crate::reverse::{RealReverser, Reverser};
 
@@ -7,11 +5,10 @@ mod reader;
 mod reverse;
 
 fn main_<R: Reverser, RD: Reader>(reverser: R, reader: RD) {
-    print!("Enter text: ");
-    std::io::stdout().flush().unwrap();
+    reader.println("Enter text:".to_string());
     let input = reader.read_line();
     let reversed = reverser.reverse_input(&input);
-    println!("Reversed: {}", reversed);
+    reader.println(format!("Reversed: {}", reversed));
 }
 
 fn main() {
@@ -43,6 +40,17 @@ mod tests {
             .expect_read_line()
             .returning(|| user_input.to_string());
 
+        reader
+            .expect_println()
+            .once()
+            .with(predicate::eq("Enter text:".to_string()))
+            .returning(|_| ());
+        reader
+            .expect_println()
+            .once()
+            .with(predicate::eq("Reversed: olleh".to_string()))
+            .returning(|_| ());
+
         main_(mock, reader);
     }
     #[test]
@@ -54,6 +62,17 @@ mod tests {
         reader
             .expect_read_line()
             .returning(|| user_input.to_string());
+
+        reader
+            .expect_println()
+            .once()
+            .with(predicate::eq("Enter text:".to_string()))
+            .returning(|_| ());
+        reader
+            .expect_println()
+            .once()
+            .with(predicate::eq("Reversed: olleh".to_string()))
+            .returning(|_| ());
 
         main_(mock, reader);
     }
