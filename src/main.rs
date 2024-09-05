@@ -13,8 +13,7 @@ fn main_<R: ReverserT, C: Console>(reverser: R, console: C) {
 
 fn main() {
     let reverser = ReverserImpl;
-    let reader = ConsoleReader;
-    main_(reverser, reader);
+    main_(reverser, ConsoleReader);
 }
 
 #[cfg(test)]
