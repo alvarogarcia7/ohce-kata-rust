@@ -35,45 +35,45 @@ mod tests {
             .once()
             .returning(|_| reversed.to_string());
 
-        let mut reader = MockConsole::new();
-        reader
+        let mut console = MockConsole::new();
+        console
             .expect_read_line()
             .returning(|| user_input.to_string());
 
-        reader
+        console
             .expect_println()
             .once()
             .with(predicate::eq("Enter text:".to_string()))
             .returning(|_| ());
-        reader
+        console
             .expect_println()
             .once()
             .with(predicate::eq("Reversed: olleh".to_string()))
             .returning(|_| ());
 
-        main_(mock, reader);
+        main_(mock, console);
     }
     #[test]
     fn test_reverse_input_using_real_reverser() {
         let mock = RealReverser;
         let user_input = "hello";
 
-        let mut reader = MockConsole::new();
-        reader
+        let mut console = MockConsole::new();
+        console
             .expect_read_line()
             .returning(|| user_input.to_string());
 
-        reader
+        console
             .expect_println()
             .once()
             .with(predicate::eq("Enter text:".to_string()))
             .returning(|_| ());
-        reader
+        console
             .expect_println()
             .once()
             .with(predicate::eq("Reversed: olleh".to_string()))
             .returning(|_| ());
 
-        main_(mock, reader);
+        main_(mock, console);
     }
 }
