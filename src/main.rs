@@ -29,7 +29,7 @@ mod tests {
     use crate::reverse::{MockReverser, RealReverser};
 
     #[test]
-    fn test_reverse_input() {
+    fn test_reverse_input_using_a_mock_reverser() {
         let mut mock = MockReverser::new();
         let user_input = "hello";
         let reversed = "olleh";
