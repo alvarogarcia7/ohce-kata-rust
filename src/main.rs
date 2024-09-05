@@ -11,6 +11,7 @@ fn main_<R: ReverserT, C: Console>(reverser: R, console: C) {
     console.println(format!("Reversed: {}", reversed));
 }
 
+// Entry point for the application
 fn main() {
     main_(ReverserImpl, ConsoleReader);
 }
