@@ -55,7 +55,6 @@ mod tests {
     }
     #[test]
     fn test_reverse_input_using_real_reverser() {
-        let mock = ReverserImpl;
         let user_input = "hello";
 
         let mut console = MockConsole::new();
@@ -74,6 +73,6 @@ mod tests {
             .with(predicate::eq("Reversed: olleh".to_string()))
             .returning(|_| ());
 
-        main_(mock, console);
+        main_(ReverserImpl, console);
     }
 }
