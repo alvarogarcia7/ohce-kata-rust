@@ -1,9 +1,7 @@
-// src/main.rs
-use std::io::{self, Write};
+mod reverse;
 
-fn reverse_input(input: &str) -> String {
-    input.chars().rev().collect()
-}
+use reverse::reverse_input;
+use std::io::{self, Write};
 
 fn main() {
     let mut input = String::new();
@@ -19,7 +17,7 @@ fn main() {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use super::reverse::reverse_input;
 
     #[test]
     fn test_reverse_input() {
