@@ -1,14 +1,14 @@
-use crate::reader::{ConsoleReader, Reader};
+use crate::reader::{Console, ConsoleReader};
 use crate::reverse::{RealReverser, Reverser};
 
 mod reader;
 mod reverse;
 
-fn main_<R: Reverser, RD: Reader>(reverser: R, reader: RD) {
-    reader.println("Enter text:".to_string());
-    let input = reader.read_line();
+fn main_<R: Reverser, C: Console>(reverser: R, console: C) {
+    console.println("Enter text:".to_string());
+    let input = console.read_line();
     let reversed = reverser.reverse_input(&input);
-    reader.println(format!("Reversed: {}", reversed));
+    console.println(format!("Reversed: {}", reversed));
 }
 
 fn main() {
@@ -22,7 +22,7 @@ mod tests {
     use mockall::predicate;
 
     use crate::main_;
-    use crate::reader::MockReader;
+    use crate::reader::MockConsole;
     use crate::reverse::{MockReverser, RealReverser};
 
     #[test]
@@ -35,7 +35,7 @@ mod tests {
             .once()
             .returning(|_| reversed.to_string());
 
-        let mut reader = MockReader::new();
+        let mut reader = MockConsole::new();
         reader
             .expect_read_line()
             .returning(|| user_input.to_string());
@@ -58,7 +58,7 @@ mod tests {
         let mock = RealReverser;
         let user_input = "hello";
 
-        let mut reader = MockReader::new();
+        let mut reader = MockConsole::new();
         reader
             .expect_read_line()
             .returning(|| user_input.to_string());

@@ -2,7 +2,7 @@ use mockall::automock;
 use std::io::Write;
 
 #[automock]
-pub trait Reader {
+pub trait Console {
     fn read_line(&self) -> String;
     fn println(&self, message: String) {
         println!("{}", message);
@@ -12,7 +12,7 @@ pub trait Reader {
 
 pub struct ConsoleReader;
 
-impl Reader for ConsoleReader {
+impl Console for ConsoleReader {
     fn read_line(&self) -> String {
         let mut input = String::new();
         std::io::stdin()
