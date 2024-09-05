@@ -1,3 +1,15 @@
+install: install-deps install-git-hooks
+.PHONY: install
+
+install-deps:
+	cargo install --path .
+.PHONY: install-deps
+
+install-git-hooks:
+	chmod +x githooks/*
+	cp -f githooks/* .git/hooks/
+.PHONY: install-git-hooks
+
 format:
 	cargo fmt --all --
 .PHONY: format
