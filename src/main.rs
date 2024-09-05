@@ -3,7 +3,7 @@ mod reverse;
 use crate::reverse::{RealReverser, Reverser};
 use std::io::{self, Write};
 
-fn main() {
+fn main_<R: Reverser>(reverser: R) {
     let mut input = String::new();
     print!("Enter text: ");
     io::stdout().flush().unwrap();
@@ -11,8 +11,13 @@ fn main() {
         .read_line(&mut input)
         .expect("Failed to read line");
     let input = input.trim();
-    let reversed = RealReverser.reverse_input(input);
+    let reversed = reverser.reverse_input(input);
     println!("Reversed: {}", reversed);
+}
+
+fn main() {
+    let reverser = RealReverser;
+    main_(reverser);
 }
 
 #[cfg(test)]
