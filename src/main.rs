@@ -26,7 +26,7 @@ mod tests {
 
     use crate::main_;
     use crate::reader::MockReader;
-    use crate::reverse::MockReverser;
+    use crate::reverse::{MockReverser, RealReverser};
 
     #[test]
     fn test_reverse_input() {
@@ -36,12 +36,24 @@ mod tests {
         mock.expect_reverse_input()
             .with(predicate::eq(user_input))
             .once()
-            .returning(|_| {
-                reversed.to_string()
-            });
+            .returning(|_| reversed.to_string());
 
         let mut reader = MockReader::new();
-        reader.expect_read_line().returning(|| user_input.to_string());
+        reader
+            .expect_read_line()
+            .returning(|| user_input.to_string());
+
+        main_(mock, reader);
+    }
+    #[test]
+    fn test_reverse_input_using_real_reverser() {
+        let mock = RealReverser;
+        let user_input = "hello";
+
+        let mut reader = MockReader::new();
+        reader
+            .expect_read_line()
+            .returning(|| user_input.to_string());
 
         main_(mock, reader);
     }
