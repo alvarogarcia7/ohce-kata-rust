@@ -1,3 +1,6 @@
+use mockall::automock;
+
+#[automock]
 pub trait Reverser {
     fn reverse_input(&self, input: &str) -> String;
 }

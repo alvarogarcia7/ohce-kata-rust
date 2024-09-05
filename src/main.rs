@@ -1,7 +1,8 @@
-mod reverse;
+use std::io::{self, Write};
 
 use crate::reverse::{RealReverser, Reverser};
-use std::io::{self, Write};
+
+mod reverse;
 
 fn main_<R: Reverser>(reverser: R) {
     let mut input = String::new();
@@ -22,12 +23,10 @@ fn main() {
 
 #[cfg(test)]
 mod tests {
-    use mockall::{automock, predicate, predicate::*};
+    use mockall::predicate;
 
-    #[automock]
-    trait Reverser {
-        fn reverse_input(&self, input: &str) -> String;
-    }
+    use crate::main_;
+    use crate::reverse::{MockReverser, Reverser};
 
     #[test]
     fn test_reverse_input() {
@@ -38,5 +37,7 @@ mod tests {
             .returning(|_| "olleh".to_string());
 
         assert_eq!(mock.reverse_input("hello"), "olleh");
+
+        main_(mock);
     }
 }
