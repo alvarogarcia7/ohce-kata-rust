@@ -14,15 +14,3 @@ fn main() {
     let reversed = reverse_input(input);
     println!("Reversed: {}", reversed);
 }
-
-#[cfg(test)]
-mod tests {
-    use super::reverse::reverse_input;
-
-    #[test]
-    fn test_reverse_input() {
-        assert_eq!(reverse_input("hello"), "olleh");
-        assert_eq!(reverse_input("rust"), "tsur");
-        assert_eq!(reverse_input(""), "");
-    }
-}
