@@ -21,3 +21,9 @@ impl Console for ConsoleReader {
         input.trim().to_string()
     }
 }
+
+impl Default for ConsoleReader {
+    fn default() -> Self {
+        ConsoleReader
+    }
+}
