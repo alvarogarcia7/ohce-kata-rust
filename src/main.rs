@@ -13,7 +13,7 @@ fn main_<R: ReverserT, C: Console>(reverser: R, console: C) {
 
 // Entry point for the application
 fn main() {
-    main_(ReverserImpl, ConsoleReader);
+    main_(ReverserImpl, ConsoleReader::default());
 }
 
 #[cfg(test)]
